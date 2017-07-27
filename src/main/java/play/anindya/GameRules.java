@@ -1,6 +1,7 @@
 package play.anindya;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import static play.anindya.Dice.*;
 
@@ -68,7 +69,6 @@ class GameRules {
         for (int val : mDice.getValues()) {
             mCount[val]++;
         }
-
         return true;
     }
 
@@ -90,8 +90,9 @@ class GameRules {
      */
     private int ofAKind(int value) {
         for (int i : mCount) {
-            if (i >= value)
+            if (i >= value) {
                 return mDice.getSum();
+            }
         }
         return LOSS;
     }
@@ -102,19 +103,8 @@ class GameRules {
      * @return 25, if there are three of one kind and two of another, 0 otherwise.
      */
     private int fullHouse() {
-        boolean three = false;
-        boolean two = false;
-
-        for (int i : mCount) {
-            if (i == 3)
-                three = true;
-            else if (i == 2)
-                two = true;
-            if (three && two)
-                break;
-        }
-
-        return three && two ? FULL_HOUSE_SCORE : LOSS;
+        return IntStream.of(mCount).anyMatch(x -> x == 3) &&
+                IntStream.of(mCount).anyMatch(x -> x == 2) ? FULL_HOUSE_SCORE : LOSS;
     }
 
     /**
@@ -131,8 +121,9 @@ class GameRules {
             if (values[i] - values[i - 1] == 1) {
                 length += 1;
             } else {
-                if (type == SMALL_STRAIGHT && length == 4)
+                if (type == SMALL_STRAIGHT && length == 4) {
                     break;
+                }
                 length = 1;
             }
         }
@@ -147,8 +138,9 @@ class GameRules {
      */
     private int allDifferent() {
         for (int i : mCount) {
-            if (i > 1)
+            if (i > 1) {
                 return LOSS;
+            }
         }
         return ALL_DIFFERENT_SCORE;
     }
@@ -169,8 +161,9 @@ class GameRules {
      */
     private int allSame() {
         for (int i : mCount) {
-            if (i == NO_OF_DICE)
+            if (i == NO_OF_DICE) {
                 return ALL_SAME_SCORE;
+            }
         }
         return LOSS;
     }
