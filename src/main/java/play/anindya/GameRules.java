@@ -116,19 +116,19 @@ class GameRules {
      */
     private int straights(int type) {
         int length = 1;
+        int maxLength = 1;
         int[] values = mDice.getValues();
         for (int i = 1; i < NO_OF_DICE; i++) {
             if (values[i] - values[i - 1] == 1) {
                 length += 1;
             } else {
-                if (type == SMALL_STRAIGHT && length == 4) {
-                    break;
-                }
+                maxLength = Math.max(maxLength, length);
                 length = 1;
             }
         }
-        return type == SMALL_STRAIGHT && length >= 4 ? SMALL_STRAIGHT_SCORE :
-                type == LARGE_STRAIGHT && length == 5 ? LARGE_STRAIGHT_SCORE : LOSS;
+        maxLength = Math.max(maxLength, length);
+        return type == SMALL_STRAIGHT && maxLength >= 4 ? SMALL_STRAIGHT_SCORE :
+                type == LARGE_STRAIGHT && maxLength == 5 ? LARGE_STRAIGHT_SCORE : LOSS;
     }
 
     /**

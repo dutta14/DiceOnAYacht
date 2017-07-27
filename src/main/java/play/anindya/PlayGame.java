@@ -13,6 +13,10 @@ import static play.anindya.Dice.*;
  */
 public class PlayGame {
 
+    static String[] options = {"", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sevens",
+            "Eights", "Three of a Kind", "Four of a Kind", "Full House", "Small Straight", "Large Straight",
+            "All Different", "Chance", "All Same", "Best Game", "Exit"};
+
     public static void main(String args[]) {
 
         int[] diceValues = new int[NO_OF_DICE];
@@ -21,23 +25,20 @@ public class PlayGame {
 
         GameRules game = new GameRules();
 
-        while(true) {
+        while (true) {
             System.out.print("Enter the values on the five dice (between 1 and 8): ");
             for (int i = 0; i < NO_OF_DICE; i++) {
                 diceValues[i] = s.nextInt();
             }
-            if(game.setDice(diceValues))    //valid data has been passed.
+            if (game.setDice(diceValues))    //valid data has been passed.
                 break;
             else
                 System.out.println("An incorrect value was entered");
         }
 
-        System.out.println("\n1. Ones                2. Twos              3. Threes" +
-                "\n4. Fours               5. Fives             6. Sixes" +
-                "\n7. Sevens              8. Eights            9. Three of a Kind" +
-                "\n10. Four of a Kind    11. Full House       12. Small Straight" +
-                "\n13. Large Straight    14. All Different    15. Chance" +
-                "\n16. All Same          17. Best Game        18.Exit");
+        for (int i = 1; i < options.length; i++) {
+            System.out.println(i + ". " + options[i]);
+        }
 
         while (true) {
             System.out.print("Enter the number for the game you want to play: ");
@@ -50,5 +51,7 @@ public class PlayGame {
             int score = game.playGame(type);
             System.out.println(score);
         }
+
+        s.close();
     }
 }
